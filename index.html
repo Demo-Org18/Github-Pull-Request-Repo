@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Koenig Solutions</title>
+  <style>
+    :root {
+      --bg: #08121d;
+      --surface: #11243a;
+      --surface-strong: #1b334b;
+      --text: #eef2f7;
+      --muted: #90a4b8;
+      --accent: #56b6c7;
+      --accent-soft: rgba(86, 182, 199, 0.16);
+      --radius: 24px;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(circle at top, rgba(86, 182, 199, 0.16), transparent 28%),
+        linear-gradient(180deg, #0b1623 0%, #08121d 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 32px 0 64px;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 0;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+
+    .brand span {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #56b6c7, #7dd3e9);
+      color: #08121d;
+      font-size: 1.05rem;
+    }
+
+    nav {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    nav a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover {
+      color: var(--text);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 48px;
+      align-items: center;
+      padding: 64px 0 48px;
+    }
+
+    .hero-copy h1 {
+      font-size: clamp(2.8rem, 4vw, 4.2rem);
+      margin: 0 0 18px;
+      line-height: 1.02;
+    }
+
+    .hero-copy p {
+      max-width: 680px;
+      font-size: 1.05rem;
+      color: var(--muted);
+      margin: 0 0 28px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .button,
+    .button-secondary {
+      border: none;
+      border-radius: 14px;
+      padding: 15px 24px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .button {
+      background: var(--accent);
+      color: #08121d;
+      box-shadow: 0 18px 44px rgba(86, 182, 199, 0.18);
+    }
+
+    .button-secondary {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .button:hover,
+    .button-secondary:hover {
+      transform: translateY(-1px);
+    }
+
+    .hero-visual {
+      background: linear-gradient(180deg, rgba(86, 182, 199, 0.12), rgba(14, 28, 44, 0.95));
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 32px;
+      padding: 30px;
+      display: grid;
+      gap: 24px;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+    }
+
+    .hero-card {
+      padding: 26px;
+      border-radius: 26px;
+      background: rgba(17, 36, 58, 0.86);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .hero-card h2 {
+      margin: 0 0 12px;
+      font-size: 1.2rem;
+    }
+
+    .hero-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+
+    .features {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      margin-top: 28px;
+    }
+
+    .feature {
+      padding: 24px;
+      border-radius: 26px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .feature:hover {
+      transform: translateY(-2px);
+      border-color: rgba(86, 182, 199, 0.24);
+    }
+
+    .feature h3 {
+      margin-top: 0;
+      font-size: 1.05rem;
+    }
+
+    .feature p {
+      color: var(--muted);
+      margin: 12px 0 0;
+      font-size: 0.96rem;
+    }
+
+    .section {
+      padding: 64px 0;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 28px;
+      color: var(--text);
+    }
+
+    .section-title::before {
+      content: "";
+      display: inline-block;
+      width: 46px;
+      height: 4px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+    }
+
+    .about-card,
+    .contact-card {
+      padding: 32px;
+      border-radius: 28px;
+      background: rgba(17, 36, 58, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .about-card h2,
+    .contact-card h2 {
+      margin-top: 0;
+      font-size: 1.45rem;
+    }
+
+    .contact-list {
+      list-style: none;
+      padding: 0;
+      margin: 24px 0 0;
+      display: grid;
+      gap: 14px;
+    }
+
+    .contact-list li {
+      display: flex;
+      gap: 14px;
+      align-items: baseline;
+      color: var(--muted);
+    }
+
+    .contact-list strong {
+      color: var(--text);
+      min-width: 100px;
+      display: inline-block;
+    }
+
+    footer {
+      margin-top: 48px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 860px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      header {
+        flex-direction: column;
+        align-items: start;
+      }
+
+      .hero {
+        gap: 28px;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <a class="brand" href="#home"><span>KS</span>Koenig Solutions</a>
+      <nav>
+        <a href="#services">Services</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <section class="hero" id="home">
+      <div class="hero-copy">
+        <p style="letter-spacing: 0.18em; text-transform: uppercase; color: #7dd3e9; font-weight: 700; margin-bottom: 18px;">Koenig Solutions</p>
+        <h1>Transforming digital experiences with strategy, design, and engineering.</h1>
+        <p>We help organizations build strong digital brands, modern products, and customer-first web solutions with clarity, creativity, and measurable results.</p>
+        <div class="hero-actions">
+          <a class="button" href="#contact">Get in Touch</a>
+          <a class="button-secondary" href="#services">Explore Services</a>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-label="Koenig Solutions overview">
+        <div class="hero-card">
+          <h2>Our approach</h2>
+          <p>We combine research-led planning, modern user experience, and robust technical delivery to launch digital products that grow your business.</p>
+        </div>
+
+        <div class="features">
+          <article class="feature">
+            <h3>Product Strategy</h3>
+            <p>Align digital initiatives with your business goals and customer needs through expert discovery and roadmap planning.</p>
+          </article>
+          <article class="feature">
+            <h3>UX & Design</h3>
+            <p>Create intuitive brand experiences with thoughtful interfaces and clear customer journeys.</p>
+          </article>
+          <article class="feature">
+            <h3>Engineering</h3>
+            <p>Deliver scalable web platforms, integrations, and custom software solutions using modern technologies.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="services">
+      <div class="section-title"><span></span><h2>Services</h2></div>
+      <div class="features">
+        <article class="feature">
+          <h3>Digital Transformation</h3>
+          <p>Turn your vision into a practical, digital operating model with better workflows, products, and customer engagement.</p>
+        </article>
+        <article class="feature">
+          <h3>Experience Design</h3>
+          <p>Design cohesive customer journeys across web, mobile, and SaaS platforms for stronger brand loyalty.</p>
+        </article>
+        <article class="feature">
+          <h3>Web Development</h3>
+          <p>Build performant, secure websites and applications using scalable front-end and back-end architectures.</p>
+        </article>
+        <article class="feature">
+          <h3>Consulting & Support</h3>
+          <p>Get expert guidance on technology selection, process improvement, and long-term digital operations.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="grid-2">
+        <div class="about-card">
+          <h2>About Koenig Solutions</h2>
+          <p>Koenig Solutions partners with forward-thinking teams to create digital products that matter. Our work is driven by strategy, grounded in design, and delivered with technical excellence.</p>
+          <p>We believe in building strong collaboration, measurable outcomes, and polished experiences that stand out in a crowded market.</p>
+        </div>
+        <div class="about-card">
+          <h2>Why choose us?</h2>
+          <ul style="margin: 18px 0 0; padding-left: 20px; color: var(--muted);">
+            <li>Customer-centered planning and research.</li>
+            <li>Design systems and pixel-perfect implementation.</li>
+            <li>Agile delivery with transparent communication.</li>
+            <li>Long-term partnerships focused on growth.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="contact-card">
+        <h2>Ready to start?</h2>
+        <p>Connect with Koenig Solutions to discuss your next digital initiative, product launch, or web transformation.</p>
+        <ul class="contact-list">
+          <li><strong>Email</strong><span>hello@koenigsolutions.com</span></li>
+          <li><strong>Phone</strong><span>+1 (555) 123-4567</span></li>
+          <li><strong>Location</strong><span>Remote-first, serving global clients</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <footer>
+      &copy; 2026 Koenig Solutions. Crafted for modern teams and digital transformation.
+    </footer>
+  </div>
+</body>
+</html>
